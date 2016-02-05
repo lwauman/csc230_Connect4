@@ -6,7 +6,7 @@
 
 public class C4 extends Game{
     private int[][] board;
-    final int COLS, ROWS;
+    private final int COLS, ROWS;
     
     public C4(){
         super("Connect4", 2);
@@ -68,7 +68,7 @@ public class C4 extends Game{
                         && board[row-3][col+3] == super.currentTurn())
                         return true;
                 }
-                else if(row>=3 && col>=4){
+                else{
                     if(board[row][col] == super.currentTurn() 
                         && board[row-1][col-1] == super.currentTurn()
                         && board[row-2][col-2] == super.currentTurn() 
@@ -79,6 +79,69 @@ public class C4 extends Game{
             }
         }
         return false;
+    }
+   
+    public boolean isFull(){
+        for(int i=0; i<ROWS; i++){
+            for(int j=0; j<COLS; j++){
+                if(board[i][j]==0){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    private boolean isHorizWinner(){
+        for(int col=0; col<4; col++){
+            for(int row=0; row<6; row++){
+                if(board[row][col] == super.currentTurn()
+                        && board[row][col+1] == super.currentTurn()
+                        && board[row][col+2] == super.currentTurn()
+                        && board[row][col+3] == super.currentTurn())
+                    return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean isVertWinner(){
+        for(int col=0; col<7; col++){
+            for(int row=0; row<3; row++){
+                if(board[row][col] == super.currentTurn()
+                        && board[row+1][col] == super.currentTurn()
+                        && board[row+2][col] == super.currentTurn()
+                        && board[row+3][col] == super.currentTurn())
+                    return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean isWinner(){
+        if(isDiagWinner()){
+            super.winner();
+            return true;
+        }
+        else if(isHorizWinner()){
+            super.winner();
+            return true;
+        }
+        else if(isVertWinner()){
+            super.winner();
+            return true;
+        }
+        else{
+            nextTurn();
+            return false;
+        }
+        
+            
+    
+    }
+    
+    public void nextTurn(){
+        super.next();
     }
     
     public void playPiece(int col){
@@ -95,21 +158,6 @@ public class C4 extends Game{
         }
     }
     
-    public boolean isFull(){
-        for(int i=0; i<ROWS; i++){
-            for(int j=0; j<COLS; j++){
-                if(board[i][j]==0){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    
-    public void nextTurn(){
-        super.next();
-    }
-    
     public void printBoard(){
         System.out.println(" ---------------");
         for (int i = 0; i < ROWS; i++) {
@@ -122,6 +170,7 @@ public class C4 extends Game{
         }
         System.out.println(" ---------------");
     }
+    
 }    
         
     
