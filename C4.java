@@ -45,8 +45,42 @@ public class C4 extends Game{
     }
     
     private boolean isDiagWinner(){
-        
+        for(int col=0; col<7; col++){
+            for(int row=0; row<6; row++){
+                if(row<3 && col<4){
+                    if(board[row][col] == super.currentTurn() 
+                        && board[row+1][col+1] == super.currentTurn()
+                        && board[row+2][col+2] == super.currentTurn() 
+                        && board[row+3][col+3] == super.currentTurn())
+                        return true;
+                }
+                else if(row<3 && col>=4){
+                    if(board[row][col] == super.currentTurn() 
+                        && board[row+1][col-1] == super.currentTurn()
+                        && board[row+2][col-2] == super.currentTurn() 
+                        && board[row+3][col-3] == super.currentTurn())
+                        return true;
+                }
+                else if (row>=3 && col<4){
+                    if(board[row][col] == super.currentTurn() 
+                        && board[row-1][col+1] == super.currentTurn()
+                        && board[row-2][col+2] == super.currentTurn() 
+                        && board[row-3][col+3] == super.currentTurn())
+                        return true;
+                }
+                else if(row>=3 && col>=4){
+                    if(board[row][col] == super.currentTurn() 
+                        && board[row-1][col-1] == super.currentTurn()
+                        && board[row-2][col-2] == super.currentTurn() 
+                        && board[row-3][col-3] == super.currentTurn())
+                        return true;
+                }
+                
+            }
+        }
+        return false;
     }
+    
     public void playPiece(int col){
         if(isColFull(col)){
             System.out.println("That column is full. Please choose another column.");
