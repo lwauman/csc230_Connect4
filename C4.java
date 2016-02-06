@@ -1,5 +1,5 @@
 /*
- * Author: 
+ * Author: Lucas Auman
  * Program 1 - MyString
  * CSC230-02 Spring 2016
  */
@@ -120,19 +120,31 @@ public class C4 extends Game{
     
     public boolean isWinner(){
         if(isDiagWinner()){
+            printBoard();
             super.winner();
+            clearBoard();
             return true;
         }
         else if(isHorizWinner()){
+            printBoard();
             super.winner();
+            clearBoard();
             return true;
         }
         else if(isVertWinner()){
+            printBoard();
             super.winner();
+            clearBoard();
+            return true;
+        }
+        else if(isFull()){
+            printBoard();
+            System.out.println("After " +super.getTries()+" the game ended "
+                    + "in a draw.");
+            clearBoard();
             return true;
         }
         else{
-            nextTurn();
             return false;
         }
         
@@ -152,6 +164,7 @@ public class C4 extends Game{
             for(int i=5; i>=0; i--){
                 if(board[i][col] == 0){
                     board[i][col] = getTurn();
+                    nextTurn();
                     break;
                 }
             }
