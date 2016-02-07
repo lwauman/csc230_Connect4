@@ -7,6 +7,7 @@
 public class C4 extends Game{
     private int[][] board;
     private final int COLS, ROWS;
+    private boolean allowNextTurn = true; //used to control if nextTurn() is allowed. See playPiece()
     
     public C4(){
         super("Connect4", 2);
@@ -37,11 +38,7 @@ public class C4 extends Game{
     }
     
     public boolean isColFull(int col){
-        if(board[0][col] != 0){
-            return true;
-        }
-        else
-            return false;
+        return board[0][col] != 0;
     }
     
     private boolean isDiagWinner(){
@@ -153,18 +150,20 @@ public class C4 extends Game{
     }
     
     public void nextTurn(){
-        super.next();
+        if(allowNextTurn)
+            super.next();
     }
     
     public void playPiece(int col){
         if(isColFull(col)){
             System.out.println("That column is full. Please choose another column.");
+            allowNextTurn = false;
         }
         else{
+            allowNextTurn = true;
             for(int i=5; i>=0; i--){
                 if(board[i][col] == 0){
                     board[i][col] = getTurn();
-                    nextTurn();
                     break;
                 }
             }
@@ -184,6 +183,11 @@ public class C4 extends Game{
         System.out.println(" ---------------");
     }
     
-}    
-        
+    public void setToPlayer1(){
+        if(super.currentTurn() == 2)
+            nextTurn();
+    }
+    
+}   
+
     

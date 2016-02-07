@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 /*
@@ -14,19 +13,23 @@ public class MyGame {
         C4 c4 = new C4();
         Scanner kb = new Scanner(System.in);
         char response = 'y';
+        boolean isWinner = false;
         while(response == 'y'){
-            do{
+            while(!isWinner){
                 c4.printBoard();
                 System.out.print("Player " + c4.getTurn() +", please enter the column number you would like to "
                         + "place your piece in: ");
                 c4.playPiece(kb.nextInt()-1);
-        }while (c4.isWinner() == false);
-        System.out.print("Would you like to play again(y/n)? ");
-        response = kb.next().toLowerCase().charAt(0);
-        }
-        
-        
-        
+                isWinner = c4.isWinner();
+                c4.nextTurn();
+            }
+            System.out.print("Would you like to play again(y/n)? ");
+            response = kb.next().toLowerCase().charAt(0);
+            if(response == 'y'){
+                isWinner=false;
+                if(c4.getTurn()==2)
+                    c4.nextTurn();
+            }
+        } 
     }
-    
 }
