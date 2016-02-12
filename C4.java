@@ -9,6 +9,7 @@ public class C4 extends Game{
     private final int COLS, ROWS;
     private boolean allowNextTurn = true; //used to control if nextTurn() is allowed. See playPiece()
     
+    //Constructor. Initializes variables and sets up 2d array
     public C4(){
         super("Connect4", 2);
         COLS = 7;
@@ -20,7 +21,7 @@ public class C4 extends Game{
             }
         }
     }
-    
+    //sets all values of the array to 0
     private void clearBoard(){
         for(int i=0; i<ROWS; i++){
             for(int j=0; j<COLS; j++){
@@ -28,15 +29,15 @@ public class C4 extends Game{
             }
         }
     }
-    
+    //returns 1, 2, or 0 from the array at the parameter location
     public int getPiece(int row, int col){
         return board[row][col];
     }
-    
+    //returns 1 or 2 which indicates which player's turn it is
     public int getTurn(){
         return super.currentTurn();
     }
-    
+    //checks to see if row 0 of the parameter column contains 1 or 2. If so returns true
     public boolean isColFull(int col){
         return board[0][col] != 0;
     }
