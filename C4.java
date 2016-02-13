@@ -11,7 +11,7 @@ public class C4 extends Game{
     
     //Constructor. Initializes variables and sets up 2d array
     public C4(){
-        super("Connect4", 2);
+        super("Connect Four", 2);
         COLS = 7;
         ROWS = 6;
         board = new int[ROWS][COLS];
@@ -41,10 +41,12 @@ public class C4 extends Game{
     public boolean isColFull(int col){
         return board[0][col] != 0;
     }
-    
+    //breaks the board up into 4 quadrants and check for diagnal win conditions
     private boolean isDiagWinner(){
         for(int col=0; col<7; col++){
+            //I increment the rows first as a matter of preference
             for(int row=0; row<6; row++){
+                //upper left quadrant
                 if(row<3 && col<4){
                     if(board[row][col] == super.currentTurn() 
                         && board[row+1][col+1] == super.currentTurn()
@@ -52,6 +54,7 @@ public class C4 extends Game{
                         && board[row+3][col+3] == super.currentTurn())
                         return true;
                 }
+                //upper right quadrant
                 else if(row<3 && col>=4){
                     if(board[row][col] == super.currentTurn() 
                         && board[row+1][col-1] == super.currentTurn()
@@ -59,6 +62,7 @@ public class C4 extends Game{
                         && board[row+3][col-3] == super.currentTurn())
                         return true;
                 }
+                //bottom left quadrant
                 else if (row>=3 && col<4){
                     if(board[row][col] == super.currentTurn() 
                         && board[row-1][col+1] == super.currentTurn()
@@ -66,6 +70,7 @@ public class C4 extends Game{
                         && board[row-3][col+3] == super.currentTurn())
                         return true;
                 }
+                //bottom right quadrant
                 else{
                     if(board[row][col] == super.currentTurn() 
                         && board[row-1][col-1] == super.currentTurn()
@@ -78,7 +83,7 @@ public class C4 extends Game{
         }
         return false;
     }
-   
+   //checks if there are any 0s in on the board. If so returns false
     public boolean isFull(){
         for(int i=0; i<ROWS; i++){
             for(int j=0; j<COLS; j++){
@@ -89,8 +94,10 @@ public class C4 extends Game{
         }
         return true;
     }
-    
+    //checks for any horizontal win conditions
     private boolean isHorizWinner(){
+        //col stops <4 due to the fact that 3 is added to it. This avoids
+        //out of bound errors
         for(int col=0; col<4; col++){
             for(int row=0; row<6; row++){
                 if(board[row][col] == super.currentTurn()
@@ -102,9 +109,11 @@ public class C4 extends Game{
         }
         return false;
     }
-    
+    //checks for any vertical win conditions
     private boolean isVertWinner(){
         for(int col=0; col<7; col++){
+            //row stops at < 3 due to the fact that 3 is added to it. This avoids
+            //out of bound errors
             for(int row=0; row<3; row++){
                 if(board[row][col] == super.currentTurn()
                         && board[row+1][col] == super.currentTurn()
@@ -115,7 +124,11 @@ public class C4 extends Game{
         }
         return false;
     }
-    
+    /*
+    This checks for all winning conditions. If any are true it displays 
+    winner message, clears the board in preperation for another game
+    are returns control to MyGame class in order to see if players want another game
+    */
     public boolean isWinner(){
         if(isDiagWinner()){
             printBoard();
@@ -145,16 +158,17 @@ public class C4 extends Game{
         else{
             return false;
         }
-        
-            
-    
     }
-    
+    //switched turns if allowNextTurn is true. allowNextTurn is false if something
+    //went wrong during playPiece() in order to avoid players having their turns
+    //skipped
     public void nextTurn(){
         if(allowNextTurn)
             super.next();
     }
-    
+    //this method plays a piece in the column provided by user. First it checks
+    //if that column is full. If not plays the piece and if it is it asks for another
+    //column and sets allowNextTurn to false to avoid switching to the next player.
     public void playPiece(int col){
         if(isColFull(col)){
             System.out.println("That column is full. Please choose another column.");
@@ -170,7 +184,7 @@ public class C4 extends Game{
             }
         }
     }
-    
+    //This metod simply prints the 2d array with a fram around it
     public void printBoard(){
         System.out.println(" ---------------");
         for (int i = 0; i < ROWS; i++) {
@@ -183,7 +197,8 @@ public class C4 extends Game{
         }
         System.out.println(" ---------------");
     }
-    
+    //this method is used at the end of the game. It resolves the issue of player2
+    //being the first player of a new game if player 1 was the last to play a piece.
     public void setToPlayer1(){
         if(super.currentTurn() == 2)
             nextTurn();
