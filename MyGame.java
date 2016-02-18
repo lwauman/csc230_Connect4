@@ -13,8 +13,8 @@ public class MyGame {
     public static void main(String[] args) {
         C4 c4 = new C4();
         Scanner kb = new Scanner(System.in);
-        char response = 'y';
-        boolean isWinner = false;
+        char response = 'y'; //used to check if another game should be played
+        boolean isWinner = false; //used to loop until a winner is found
         
         //this while loop keeps the game going until no is entered in 
         //response to being asked if they would like to play again
@@ -56,18 +56,17 @@ public class MyGame {
                 //checks to see if there is a winner. also keeps the game looping
                 //if false
                 isWinner = c4.isWinner();
-                //this only switches turns if playPiece() was sucessful. Otherwise
-                //it doesn't switch turns. This avoids skipping player's turns when
-                //they input something that isn't 1-7
                 c4.nextTurn();
-            }
-            //this is used when a win condition is met
+            }//end while(!isWinner)
+            
+            //The code below is executed after a win condition is met
             System.out.print("Would you like to play again(y/n)? ");
             response = kb.next().toLowerCase().charAt(0);
             kb.nextLine();
             if(response == 'y'){
-                isWinner=false; //reset so while(!isWinner) on line 24 loop works
-                //this fixes an issue where player 2 started first if player 1 
+                //reset so while(!isWinner) on line 24 loop works
+                isWinner=false; 
+                //Line 71 fixes an issue where player 2 started first if player 1 
                 //had the last move
                 if(c4.getTurn()==2) 
                     c4.nextTurn();  

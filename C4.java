@@ -7,7 +7,7 @@
 public class C4 extends Game{
     private int[][] board;
     private final int COLS, ROWS;
-    private boolean allowNextTurn = true; //used to control if nextTurn() is allowed. See playPiece()
+    boolean allowNextTurn = true; //see line 172
     
     //Constructor. Initializes variables and sets up 2d array
     public C4(){
@@ -112,7 +112,7 @@ public class C4 extends Game{
     //checks for any vertical win conditions
     private boolean isVertWinner(){
         for(int col=0; col<7; col++){
-            //row stops at < 3 due to the fact that 3 is added to it. This avoids
+            //row stops at <3 due to the fact that 3 is added to it. This avoids
             //out of bound errors
             for(int row=0; row<3; row++){
                 if(board[row][col] == super.currentTurn()
@@ -159,20 +159,20 @@ public class C4 extends Game{
             return false;
         }
     }
-    //switched turns if allowNextTurn is true. allowNextTurn is false if something
-    //went wrong during playPiece() in order to avoid players having their turns
-    //skipped
+    //switchs turn if allowNextTurn is true. See line 172 for explanation of AllowNextTurn
     public void nextTurn(){
         if(allowNextTurn)
             super.next();
     }
     //this method plays a piece in the column provided by user. First it checks
-    //if that column is full. If not plays the piece and if it is it asks for another
-    //column and sets allowNextTurn to false to avoid switching to the next player.
+    //if that column is full. If it is full it asks for another column.
+    //Otherwise, the else block is used which plays the piece.
     public void playPiece(int col){
         if(isColFull(col)){
-            System.out.println("That column is full. Please choose another column.");
+            //allowNextTurn protects against players having their turn skipped
+            //if they play a piece into a full column
             allowNextTurn = false;
+            System.out.println("That column is full. Please choose another column.");
         }
         else{
             allowNextTurn = true;
@@ -184,7 +184,7 @@ public class C4 extends Game{
             }
         }
     }
-    //This metod simply prints the 2d array with a fram around it
+    //This metod simply prints the 2d array with a frame around it
     public void printBoard(){
         System.out.println(" ---------------");
         for (int i = 0; i < ROWS; i++) {
@@ -204,6 +204,6 @@ public class C4 extends Game{
             nextTurn();
     }
     
-}   
+} 
 
     
